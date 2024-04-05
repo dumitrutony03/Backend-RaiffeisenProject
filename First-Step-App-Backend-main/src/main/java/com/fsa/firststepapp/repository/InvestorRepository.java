@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Repository pentru manipularea datelor entității Participant.
  */
-public interface ParticipantRepository extends CrudRepository<Investor, Long> {
+public interface InvestorRepository extends CrudRepository<Investor, Long> {
 }

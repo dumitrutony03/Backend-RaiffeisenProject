@@ -42,17 +42,20 @@ public class AuthenticationService implements  IAuthenticationService{
             return AuthenticationResponse.builder()
                     .errorMessage("Password cannot be empty inside the request body!").build();
 
-       if(userRepository.findAdminByEmail(request.getEmail()))
-            throw new DuplicateKeyException("That email is already in use!");
+       if(userRepository.findUserByEmail(request.getEmail()).isPresent()) {
+           System.out.println(userRepository.findUserByEmail(request.getEmail()).get() + " That email is already in use!");
+           throw new DuplicateKeyException("That email is already in use!");
+       }
 
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(Long.valueOf(passwordEncoder.encode(request.getPassword())))
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.valueOf(request.getRole()))
                 .build();
 
         // Daca nu punem niciun ROL, atunci setam sa fie ADMIN cand inregistram un USER
+        // Id we do not set a ROLE, then we default set it to be ADMIN
         if(request.getRole() != null) {
             user.setRole(Role.ADMIN);
         }
@@ -78,10 +81,10 @@ public class AuthenticationService implements  IAuthenticationService{
             return AuthenticationResponse.builder()
                     .errorMessage("Password cannot be empty inside the request body!").build();
 
-        var user = userRepository.findAdminByEmailAndPassword(request.getEmail(), Long.valueOf(request.getPassword()))
+        var user = userRepository.findUserByEmailAndPassword(request.getEmail(), request.getPassword())
                 .orElseThrow();
 
-        if (!passwordEncoder.matches(request.getPassword(), String.valueOf(user.getPassword()))) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid password!");
         }
 

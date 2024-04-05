@@ -26,7 +26,7 @@ public class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="userId")
-    private Long userId;
+    private Integer userId;
 
     @Column(name = "name")
     private String name;
@@ -35,7 +35,7 @@ public class User implements Serializable, UserDetails {
     private String email;
 
     @Column(name = "password")
-    private Long password;
+    private String password;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * Repository pentru manipularea datelor entității User.
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
      * Găsește un utilizator după adresa de email.
@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return Un utilizator opțional (presupune că utilizatorul există sau nu).
      */
 //    Optional<User> findAdminByEmailAndPassword(String email, Long password);
-    Optional<User> findUserByEmailAndPassword(String email, Long password);
+    Optional<User> findUserByEmailAndPassword(String email, String password);
     Optional<User> findUserByEmail(String email);
 }
 

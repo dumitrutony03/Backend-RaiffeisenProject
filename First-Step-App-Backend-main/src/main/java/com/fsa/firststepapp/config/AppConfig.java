@@ -1,6 +1,5 @@
 package com.fsa.firststepapp.config;
 
-import com.fsa.firststepapp.repository.AdminRepository;
 import com.fsa.firststepapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
