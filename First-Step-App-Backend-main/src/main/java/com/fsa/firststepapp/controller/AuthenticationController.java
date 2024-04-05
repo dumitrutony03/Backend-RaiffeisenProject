@@ -4,6 +4,7 @@ import com.fsa.firststepapp.models.request.AuthenticationRequest;
 import com.fsa.firststepapp.models.request.RegisterRequest;
 import com.fsa.firststepapp.models.response.AuthenticationResponse;
 import com.fsa.firststepapp.service.auth_service.AuthenticationService;
+import com.fsa.firststepapp.service.auth_service.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final AuthenticationService authenticationService;
+    private final IAuthenticationService authenticationService;
 
     /**
      * Endpoint pentru înregistrare.
@@ -57,6 +58,7 @@ public class AuthenticationController {
      */
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+        System.out.println(request.getEmail() + " " + request.getPassword());
         try{
             var response = authenticationService.authenticate(request);
 

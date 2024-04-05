@@ -13,31 +13,31 @@ import static com.fsa.firststepapp.models.ApplicationUserPermission.*;
 /**
  * Enumerație care definește rolurile disponibile pentru utilizatori în aplicație.
  */
+@Getter
 public enum ApplicationUserRole {
-    USER(Sets.newHashSet(EVENT_READ, LOCATION_READ, UNIVERSITY_READ, FACULTY_READ)),
-    ADMIN(Sets.newHashSet(EVENT_READ, EVENT_CREATE, EVENT_UPDATE, EVENT_DELETE,
-            LOCATION_CREATE, LOCATION_READ, LOCATION_DELETE, LOCATION_UPDATE,
-            UNIVERSITY_CREATE, UNIVERSITY_DELETE, UNIVERSITY_READ, UNIVERSITY_UPDATE,
-            FACULTY_CREATE, FACULTY_DELETE, FACULTY_READ, FACULTY_UPDATE
-            ));
+    INVESTOR(Sets.newHashSet(MEETUP_CREATE)),
+    STARTUP(Sets.newHashSet()),
+    ADMIN(Sets.newHashSet(
+            MEETUP_CREATE
+    ));
 
-    @Getter
     private final Set<ApplicationUserPermission> permissions;
 
-    ApplicationUserRole(Set<ApplicationUserPermission> permissions){
-        this.permissions=permissions;
+    ApplicationUserRole(Set<ApplicationUserPermission> permissions) {
+        this.permissions = permissions;
     }
 
     /**
      * Obține o listă de obiecte SimpleGrantedAuthority pentru rolul curent.
+     *
      * @return Lista de obiecte SimpleGrantedAuthority.
      */
-    public List<SimpleGrantedAuthority> getAuthorities(){
+    public List<SimpleGrantedAuthority> getAuthorities() {
         var authorities = getPermissions()
                 .stream()
                 .map(permissions -> new SimpleGrantedAuthority(permissions.getPermission()))
                 .collect(Collectors.toList());
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+this.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return authorities;
     }
 }

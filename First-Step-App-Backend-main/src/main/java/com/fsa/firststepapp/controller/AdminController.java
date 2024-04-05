@@ -2,7 +2,6 @@ package com.fsa.firststepapp.controller;
 
 import com.fsa.firststepapp.models.dto.*;
 import com.fsa.firststepapp.models.request.*;
-import com.fsa.firststepapp.models.response.DeleteResponse;
 import com.fsa.firststepapp.service.user_service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,22 +25,22 @@ public class AdminController {
     /**
      * Endpoint pentru obținerea tuturor evenimentelor
      *
-     * @return Lista de obiecte EventDto.
+     * @return Lista de obiecte UserDto.
      */
-    @GetMapping("/investors")
+    @GetMapping("/allUsers")
     public List<UserDto> getAllInvestors() {
         return userService.getAllUsers();
     }
 
-//    /**
-//     * Endpoint pentru adăugarea unui eveniment nou
-//     *
-//     * @param event Obiectul de tip AddEventRequest care conține informațiile necesare pentru adăugarea evenimentului.
-//     * @return obiectul EventDto adaugat
-//     */
-//    @PostMapping("/events")
-//    public EventDto addEvent(@RequestBody AddEventRequest event) {
-//        return eventService.addEvent(event);
+    /**
+     * Endpoint pentru adăugarea unui eveniment nou
+     *
+     * @param registerRequest Obiectul de tip RegisterRequest care conține informațiile necesare pentru adăugarea evenimentului.
+     * @return obiectul InvestorDto adaugat
+     */
+//    @PostMapping("/investors")
+//    public InvestorDto addEvent(@RequestBody RegisterRequest registerRequest) {
+//        return userService.addUser(registerRequest);
 //    }
 //
 //    /**

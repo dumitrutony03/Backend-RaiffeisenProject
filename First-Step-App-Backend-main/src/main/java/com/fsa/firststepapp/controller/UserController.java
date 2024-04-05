@@ -2,6 +2,7 @@ package com.fsa.firststepapp.controller;
 
 import com.fsa.firststepapp.models.dto.InvestorDto;
 import com.fsa.firststepapp.models.dto.UserDto;
+import com.fsa.firststepapp.service.auth_service.AuthenticationService;
 import com.fsa.firststepapp.service.auth_service.IAuthenticationService;
 import com.fsa.firststepapp.service.user_service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,11 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/users")
 public class UserController {
     private final IUserService userService;
-
+    private final IAuthenticationService authenticationService;
     @Autowired
-    public UserController(IUserService userService) {
+    public UserController(IUserService userService, IAuthenticationService authenticationService) {
         this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     /**

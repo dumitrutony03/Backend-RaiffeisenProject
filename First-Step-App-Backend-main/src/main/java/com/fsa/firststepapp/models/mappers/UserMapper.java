@@ -1,8 +1,6 @@
 package com.fsa.firststepapp.models.mappers;
 
-import com.fsa.firststepapp.models.Startup;
 import com.fsa.firststepapp.models.User;
-import com.fsa.firststepapp.models.dto.StartupDto;
 import com.fsa.firststepapp.models.dto.UserDto;
 import org.springframework.stereotype.Component;
 

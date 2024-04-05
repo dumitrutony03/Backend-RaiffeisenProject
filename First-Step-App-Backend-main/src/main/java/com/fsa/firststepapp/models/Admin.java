@@ -1,46 +1,46 @@
-package com.fsa.firststepapp.models;
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
-/**
- * Clasă de entitate care reprezintă un utilizator în aplicație.
- */
-@Entity
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name="users")
-public class Admin implements Serializable/*, UserDetails*/ {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="adminId")
-    private Long adminId;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "password")
-    private Long password;
-
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private Role role = Role.valueOf("ADMIN");
-
+//package com.fsa.firststepapp.models;
+//
+//import jakarta.persistence.*;
+//import lombok.AllArgsConstructor;
+//import lombok.Builder;
+//import lombok.Data;
+//import lombok.NoArgsConstructor;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
+//
+//import java.io.Serializable;
+//import java.util.Collection;
+//import java.util.List;
+//
+///**
+// * Clasă de entitate care reprezintă un utilizator în aplicație.
+// */
+//@Entity
+//@Data
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Table(name="users")
+//public class Admin implements Serializable, UserDetails {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="userId")
+//    private Integer adminId;
+//
+//    @Column(name = "name")
+//    private String name;
+//
+//    @Column(name = "email")
+//    private String email;
+//
+//    @Column(name = "password")
+//    private String password;
+//
+//    @Column(name = "role")
+//    @Enumerated(EnumType.STRING)
+//    private Role role = Role.valueOf("ADMIN");
+//
 //    // --------------------------------------------------------- pentru Spring Security
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -72,4 +72,4 @@ public class Admin implements Serializable/*, UserDetails*/ {
 //        return true;
 //    }
 //    //------------------------------------------------------------
-}
+//}
