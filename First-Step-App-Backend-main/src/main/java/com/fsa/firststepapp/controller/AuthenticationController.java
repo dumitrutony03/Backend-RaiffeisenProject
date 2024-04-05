@@ -1,10 +1,13 @@
 package com.fsa.firststepapp.controller;
 
+import com.fsa.firststepapp.models.User;
+import com.fsa.firststepapp.models.dto.UserDto;
 import com.fsa.firststepapp.models.request.AuthenticationRequest;
 import com.fsa.firststepapp.models.request.RegisterRequest;
 import com.fsa.firststepapp.models.response.AuthenticationResponse;
 import com.fsa.firststepapp.service.auth_service.AuthenticationService;
 import com.fsa.firststepapp.service.auth_service.IAuthenticationService;
+import com.fsa.firststepapp.service.user_service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -22,33 +25,35 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
+
+    private final IUserService userService;
     private final IAuthenticationService authenticationService;
 
-    /**
-     * Endpoint pentru înregistrare.
-     *
-     * @param request Obiectul de tip RegisterRequest care conține informațiile necesare pentru înregistrare.
-     * @return ResponseEntity cu un obiect de tip AuthenticationResponse.
-     */
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        try{
-            var response = this.authenticationService.register(request);
-
-            if(response.getErrorMessage() != null)
-                return ResponseEntity.badRequest().body(response);
-
-            return ResponseEntity.ok(response);
-        }
-        catch (NoSuchElementException noSuchElementException){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AuthenticationResponse.builder()
-                    .errorMessage("No entity with that name was found!(University or Faculty)").build());
-        }
-        catch (DuplicateKeyException duplicateKeyException){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(AuthenticationResponse.builder()
-                    .errorMessage("Email is already in use!").build());
-        }
-    }
+//    /**
+//     * Endpoint pentru înregistrare.
+//     *
+//     * @param request Obiectul de tip RegisterRequest care conține informațiile necesare pentru înregistrare.
+//     * @return ResponseEntity cu un obiect de tip AuthenticationResponse.
+//     */
+//    @PostMapping("/register")
+//    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+//        try{
+//            var response = this.authenticationService.register(request);
+//
+//            if(response.getErrorMessage() != null)
+//                return ResponseEntity.badRequest().body(response);
+//
+//            return ResponseEntity.ok(response);
+//        }
+//        catch (NoSuchElementException noSuchElementException){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AuthenticationResponse.builder()
+//                    .errorMessage("No entity with that name was found!(University or Faculty)").build());
+//        }
+//        catch (DuplicateKeyException duplicateKeyException){
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(AuthenticationResponse.builder()
+//                    .errorMessage("Email is already in use!").build());
+//        }
+//    }
 
     /**
      * Endpoint pentru autentificare.
@@ -65,6 +70,7 @@ public class AuthenticationController {
             if(response.getErrorMessage() != null)
                 return ResponseEntity.badRequest().body(response);
 
+            // Return the token to the UI
             return ResponseEntity.ok(response);
         }
         catch (NoSuchElementException noSuchElementException){
