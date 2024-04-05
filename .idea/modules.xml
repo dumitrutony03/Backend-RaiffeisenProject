@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/First-Step-App-Backend-main.iml" filepath="$PROJECT_DIR$/.idea/First-Step-App-Backend-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Backend_Server.iml" filepath="$PROJECT_DIR$/.idea/Backend_Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/First-Step-App-Backend-main/first-step-app.iml" filepath="$PROJECT_DIR$/First-Step-App-Backend-main/first-step-app.iml" />
     </modules>
   </component>
