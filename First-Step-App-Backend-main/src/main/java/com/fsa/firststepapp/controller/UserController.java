@@ -28,13 +28,4 @@
 //        this.authenticationService = authenticationService;
 //    }
 //
-//    /**
-//     * Endpoint pentru obținerea tuturor utilizatorilor.
-//     *
-//     * @return Lista de obiecte UserDto.
-//     */
-//    @GetMapping("")
-//    public List<UserDto> getAllUsers() {
-//        return userService.getAllUsers();
-//    }
 //}

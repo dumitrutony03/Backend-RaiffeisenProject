@@ -42,18 +42,14 @@ public class RegisterService implements IRegisterService {
             throw new DuplicateKeyException("That email is already in use!");
         }
 
+        // ROLUL PENTRU OBIECTUL INVESTOR / STARTUP, VA FI OBTINUT DIN
+        // UI, REGISTER PAGE
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.valueOf(request.getRole()))
                 .build();
-
-        // Daca nu punem niciun ROL, atunci setam sa fie ADMIN cand inregistram un USER
-        // If we do not set a ROLE, then we default set it to be ADMIN
-//        if (request.getRole() != null) {
-//            user.setRole(Role.ADMIN);
-//        }
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

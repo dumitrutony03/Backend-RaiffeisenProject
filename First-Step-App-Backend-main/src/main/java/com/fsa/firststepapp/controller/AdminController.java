@@ -46,6 +46,8 @@ public class AdminController {
         try {
             var response = this.registerService.register(request);
 
+            System.out.println("Raspuns din pagina de inregistrare INVESTOR/STARTUP: " + response);
+
             if (response.getErrorMessage() != null)
                 return ResponseEntity.badRequest().body(response);
 
@@ -61,14 +63,16 @@ public class AdminController {
 
 
     /**
-     * Endpoint pentru obținerea tuturor evenimentelor
+     * Endpoint pentru obținerea tuturor utilizatorilor.
      *
      * @return Lista de obiecte UserDto.
      */
-    @GetMapping("/allUsers")
-    public String getAllInvestors() {
+    
+    @GetMapping("")
+    public ResponseEntity<String> getAllUsers() {
         System.out.println("Nr de useri din DB: " + userService.getAllUsers().size());
-        return "(ResponseEntity<AuthenticationResponse>) userService.getAllUsers()";
+        return (ResponseEntity<String>) userService.getAllUsers();
+
     }
 
     /**

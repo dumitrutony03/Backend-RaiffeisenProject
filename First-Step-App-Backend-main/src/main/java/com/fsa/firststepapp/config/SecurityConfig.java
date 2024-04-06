@@ -42,10 +42,10 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers(GET, "/api/admin/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers(POST, "/api/admin/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers(PUT, "/api/admin/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers(DELETE, "/api/admin/**").hasAnyAuthority("ADMIN")
+                        req.requestMatchers(GET, "/api/admin/**").hasAuthority("ADMIN") // pentru cand trimitem din UI token ul inapoi cu authorizare, si apoi validam tokenul in partea de server
+                                .requestMatchers(POST, "/api/admin/**").hasAuthority("ADMIN")
+                                .requestMatchers(PUT, "/api/admin/**").hasAuthority("ADMIN")
+                                .requestMatchers(DELETE, "/api/admin/**").hasAuthority("ADMIN")
                                 .requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

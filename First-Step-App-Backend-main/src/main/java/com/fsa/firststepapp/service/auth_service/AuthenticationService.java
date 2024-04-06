@@ -39,9 +39,13 @@ public class AuthenticationService implements IAuthenticationService {
             return AuthenticationResponse.builder()
                     .errorMessage("Password cannot be empty inside the request body!").build();
 
+        // gasim datele primite la AUTENTIFICARE ca fiind prezente in DB
         var user = userRepository.findUserByEmail(request.getEmail())
                 .orElseThrow();
 
+//        System.out.println("USER DIN AUTHENTIFICAT ACUMA IN DB, ARE detaliile:" + user.toString());;
+
+        // user.getPassword() - parola codata din DB
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid password!");
         }
@@ -53,6 +57,8 @@ public class AuthenticationService implements IAuthenticationService {
         var jwtToken = jwtService.generateToken(user);
 
         // Asta trimitem in UI ca sa stim ce drepturi avem in functie de ce fel de LOGARE s-a facut
+//        String extractedUserEmail = jwtService.extractUsername(jwtToken);
+//        System.out.println(extractedUserEmail);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)

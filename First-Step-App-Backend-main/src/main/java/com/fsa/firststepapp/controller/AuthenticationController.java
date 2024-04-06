@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,33 +29,6 @@ public class AuthenticationController {
 
     private final IUserService userService;
     private final IAuthenticationService authenticationService;
-
-//    /**
-//     * Endpoint pentru înregistrare.
-//     *
-//     * @param request Obiectul de tip RegisterRequest care conține informațiile necesare pentru înregistrare.
-//     * @return ResponseEntity cu un obiect de tip AuthenticationResponse.
-//     */
-//    @PostMapping("/register")
-//    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-//        try{
-//            var response = this.authenticationService.register(request);
-//
-//            if(response.getErrorMessage() != null)
-//                return ResponseEntity.badRequest().body(response);
-//
-//            return ResponseEntity.ok(response);
-//        }
-//        catch (NoSuchElementException noSuchElementException){
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AuthenticationResponse.builder()
-//                    .errorMessage("No entity with that name was found!(University or Faculty)").build());
-//        }
-//        catch (DuplicateKeyException duplicateKeyException){
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body(AuthenticationResponse.builder()
-//                    .errorMessage("Email is already in use!").build());
-//        }
-//    }
-
     /**
      * Endpoint pentru autentificare.
      *
@@ -63,8 +37,9 @@ public class AuthenticationController {
      */
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        System.out.println(request.getEmail() + " " + request.getPassword());
+        System.out.println("Authentication controller: " + request.getEmail() + " " + request.getPassword());
         try{
+            // Asta este un token, generat dupa authentificare
             var response = authenticationService.authenticate(request);
 
             if(response.getErrorMessage() != null)
@@ -81,6 +56,13 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AuthenticationResponse.builder()
                     .errorMessage("Invalid password!").build());
         }
+    }
+
+    @PostMapping("/checkToken")
+//    @PreAuthorize("hasRole('ADMIN')") // INVESTOR SAU STARTUP
+    public String getAuthenticatedUsersRole(@RequestParam(value = "token", required = false) String token){
+        System.out.println(token);
+        return "Am trimis raspunsul inapoi, verificand daca am primit tokenul";
     }
 
     @PostMapping("/test-req")

@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,13 @@ import java.util.function.Function;
 @Service
 public class JwtService implements IJwtService{
     private static final String SECRET_KEY = "63d4c053c4724c77271b14606c89ffc34b2f84894ec6b6a31c6dd0ad81170e37";
+
+    /**
+     *
+     * @param token Tokenul JWT din care se extrage numele de utilizator.
+     * @return String - USERNAME-UL aflat in configuratia TOKEN-ULUI
+     * !!!!!!!!!!!!  (LA NOI ESTE EMAIL-UL UTILIZATORULUI LOGAT)
+     */
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
@@ -31,7 +39,7 @@ public class JwtService implements IJwtService{
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 480))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 60 minutes
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

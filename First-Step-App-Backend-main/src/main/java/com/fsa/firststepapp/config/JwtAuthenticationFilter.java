@@ -1,6 +1,8 @@
 package com.fsa.firststepapp.config;
 
+import com.fsa.firststepapp.models.User;
 import com.fsa.firststepapp.service.jwt_service.JwtService;
+import com.fsa.firststepapp.service.user_service.IUserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Filtru pentru gestionarea autentificării utilizând JSON Web Token (JWT).
@@ -26,6 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final IUserService userService;
 
     /**
      * Implementarea metodei principale a filtrului pentru gestionarea autentificării prin JWT.
@@ -62,6 +66,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Verificarea și validarea token-ului JWT
         userEmail = jwtService.extractUsername(jwt);
+
+        // OFERIM autorizari dupa rol.
+        /*Optional<User> user = userService.findUserByEmail(userEmail);
+        if(user.get().getRole().equals("ADMIN")){
+
+        }*/
+
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
