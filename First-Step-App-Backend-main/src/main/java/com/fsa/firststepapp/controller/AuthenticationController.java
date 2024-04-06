@@ -39,7 +39,6 @@ public class AuthenticationController {
      */
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        System.out.println("Authentication controller: " + request.getEmail() + " " + request.getPassword());
         try{
             // Asta este un token, generat dupa authentificare
             var response = authenticationService.authenticate(request);
@@ -63,16 +62,4 @@ public class AuthenticationController {
                     .errorMessage("Invalid password!").build());
         }
     }
-
-    @PostMapping("/checkToken")
-//    @PreAuthorize("hasRole('ADMIN')") // INVESTOR SAU STARTUP
-    public String getAuthenticatedUsersRole(@RequestParam(value = "token", required = false) String token){
-        System.out.println(token);
-        return "Am trimis raspunsul inapoi, verificand daca am primit tokenul";
-    }
-
-//    @PostMapping("/validareRol")
-//    public ResponseEntity<String> testPost(@RequestBody AuthenticationRequest request){
-//        return ResponseEntity.ok("POST SUCCESS!");
-//    }
 }

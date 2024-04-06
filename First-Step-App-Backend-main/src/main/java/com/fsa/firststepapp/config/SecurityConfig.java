@@ -46,6 +46,12 @@ public class SecurityConfig {
                                 .requestMatchers(POST, "/api/admin/**").hasAuthority("ADMIN")
                                 .requestMatchers(PUT, "/api/admin/**").hasAuthority("ADMIN")
                                 .requestMatchers(DELETE, "/api/admin/**").hasAuthority("ADMIN")
+                                .
+                                requestMatchers(GET, "/api/investors/**").hasAuthority("INVESTOR") // pentru cand trimitem din UI token ul inapoi cu authorizare, si apoi validam tokenul in partea de server
+                                .requestMatchers(POST, "/api/investors/**").hasAuthority("INVESTOR")
+                                .requestMatchers(PUT, "/api/investors/**").hasAuthority("INVESTOR")
+                                .requestMatchers(DELETE, "/api/investors/**").hasAuthority("INVESTOR")
+
                                 .requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

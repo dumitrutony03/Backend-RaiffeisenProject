@@ -1,5 +1,6 @@
 package com.fsa.firststepapp.controller;
 
+import com.fsa.firststepapp.models.User;
 import com.fsa.firststepapp.models.dto.*;
 import com.fsa.firststepapp.models.request.*;
 import com.fsa.firststepapp.models.response.AuthenticationResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 /**
  * Controlerul pentru operațiunile specifice administratorului.
@@ -43,7 +45,9 @@ public class AdminController {
      * @return ResponseEntity cu un obiect de tip AuthenticationResponse.
      */
     @PostMapping("/register")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+        System.out.println("Ceva inregistrat: " + request.getName() + " " + request.getEmail() + " " + request.getPassword() + " " + request.getPassword());
         try {
             var response = this.registerService.register(request);
 
@@ -69,21 +73,13 @@ public class AdminController {
      * @return Lista de obiecte UserDto.
      */
 
-    @GetMapping("/nrOfUsers")
+    @GetMapping("/allStartupsAndInvestors")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public int getAllUsers() {
-        return userService.getAllUsers().size();
+    public ResponseEntity<List<UserDto>> getAllStartupsInvestors() {
+        List<UserDto> usersList = userService.getAllUsers().stream()
+                .filter(user -> "INVESTOR".equals(user.getRole()) || "STARTUP".equals(user.getRole()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(usersList);
     }
-
-    /**
-     * Endpoint pentru adăugarea unui eveniment nou
-     *
-     * @param registerRequest Obiectul de tip RegisterRequest care conține informațiile necesare pentru adăugarea evenimentului.
-     * @return obiectul InvestorDto adaugat
-     */
-//    @PostMapping("/investors")
-//    public InvestorDto addEvent(@RequestBody RegisterRequest registerRequest) {
-//        return userService.addUser(registerRequest);
-//    }
-
 }
