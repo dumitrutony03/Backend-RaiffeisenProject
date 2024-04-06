@@ -1,5 +1,6 @@
 package com.fsa.firststepapp.controller;
 
+import com.fsa.firststepapp.models.Role;
 import com.fsa.firststepapp.models.User;
 import com.fsa.firststepapp.models.dto.UserDto;
 import com.fsa.firststepapp.models.request.AuthenticationRequest;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Controlerul pentru gestionarea operațiunilor de autentificare și înregistrare.
@@ -45,7 +47,11 @@ public class AuthenticationController {
             if(response.getErrorMessage() != null)
                 return ResponseEntity.badRequest().body(response);
 
-            // Return the token to the UI
+            // Return the token to the UI + ROLE
+            Optional<User> user = userService.findUserByEmail(request.getEmail());
+            Role role = user.get().getRole();
+            response.setRole(role);
+
             return ResponseEntity.ok(response);
         }
         catch (NoSuchElementException noSuchElementException){
@@ -65,8 +71,8 @@ public class AuthenticationController {
         return "Am trimis raspunsul inapoi, verificand daca am primit tokenul";
     }
 
-    @PostMapping("/test-req")
-    public ResponseEntity<String> testPost(@RequestBody AuthenticationRequest request){
-        return ResponseEntity.ok("POST SUCCESS!");
-    }
+//    @PostMapping("/validareRol")
+//    public ResponseEntity<String> testPost(@RequestBody AuthenticationRequest request){
+//        return ResponseEntity.ok("POST SUCCESS!");
+//    }
 }

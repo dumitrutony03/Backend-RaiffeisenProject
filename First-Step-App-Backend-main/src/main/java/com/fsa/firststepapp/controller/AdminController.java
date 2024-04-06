@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,12 +68,11 @@ public class AdminController {
      *
      * @return Lista de obiecte UserDto.
      */
-    
-    @GetMapping("")
-    public ResponseEntity<String> getAllUsers() {
-        System.out.println("Nr de useri din DB: " + userService.getAllUsers().size());
-        return (ResponseEntity<String>) userService.getAllUsers();
 
+    @GetMapping("/nrOfUsers")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public int getAllUsers() {
+        return userService.getAllUsers().size();
     }
 
     /**
