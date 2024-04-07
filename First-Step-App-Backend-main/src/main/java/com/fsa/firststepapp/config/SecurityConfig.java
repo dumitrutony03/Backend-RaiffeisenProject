@@ -51,7 +51,7 @@ public class SecurityConfig {
                                 .requestMatchers(POST, "/api/investors/**").hasAnyAuthority("INVESTOR", "ADMIN")
                                 .requestMatchers(PUT, "/api/investors/**").hasAnyAuthority("INVESTOR", "ADMIN")
                                 .requestMatchers(DELETE, "/api/investors/**").hasAnyAuthority("INVESTOR", "ADMIN")
-
+//
                                 .requestMatchers(GET, "/api/startups/**").hasAnyAuthority("STARTUP", "ADMIN")
                                 .requestMatchers(POST, "/api/startups/**").hasAnyAuthority("STARTUP", "ADMIN")
                                 .requestMatchers(PUT, "/api/startups/**").hasAnyAuthority("STARTUP", "ADMIN")

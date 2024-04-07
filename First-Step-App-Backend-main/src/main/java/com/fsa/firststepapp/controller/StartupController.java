@@ -2,6 +2,8 @@ package com.fsa.firststepapp.controller;
 
 import com.fsa.firststepapp.models.dto.*;
 import com.fsa.firststepapp.models.mappers.InvestorMapper;
+import com.fsa.firststepapp.service.email_service.EmailService;
+import com.fsa.firststepapp.service.implementation.EmailServiceImpl;
 import com.fsa.firststepapp.service.jwt_service.IJwtService;
 import com.fsa.firststepapp.service.user_service.IUserService;
 import jakarta.mail.MessagingException;
@@ -37,15 +39,14 @@ import java.util.Properties;
 @RequestMapping("/api/startups")
 public class StartupController {
     private final IUserService userService;
-//    private final EmailService emailService;
     private final IJwtService jwtService;
     private final InvestorMapper investorMapper;
-
-    public StartupController(IUserService userService, IJwtService jwtService, InvestorMapper investorMapper) {
+    private final EmailServiceImpl emailService;
+    public StartupController(IUserService userService, IJwtService jwtService, InvestorMapper investorMapper, EmailServiceImpl emailService) {
         this.userService = userService;
-//        this.emailService = emailService;
         this.jwtService = jwtService;
         this.investorMapper = investorMapper;
+        this.emailService = emailService;
     }
 
 //    @GetMapping("/startupDetails")
@@ -72,11 +73,6 @@ public class StartupController {
     @PostMapping("/allInvestors")
     @PreAuthorize("hasAnyAuthority('STARTUP','ADMIN')") // <-------- to be implemented in front end for AdminPage
     public ResponseEntity<List<UserDto>> getAllnvestors(@RequestBody String token) {
-
-        // BEST PRACTICE: Ar trebui o metoda findUserByRole() implementata in UserRepository
-        //              : SAU -> findInvestorByRole() in InvestorRepositry
-
-
         List<UserDto> investorsList = new ArrayList<>();
 
         for (UserDto userDto : userService.getAllUsers()) {
@@ -87,64 +83,28 @@ public class StartupController {
         return ResponseEntity.ok(investorsList);
     }
 
-    @PostMapping("/sendMentoringEmailToInvestor")
+    @PostMapping("/s")
     @PreAuthorize("hasAnyAuthority('STARTUP','ADMIN')") // <-------- to be implemented in front end for AdminPage
-    public ResponseEntity<String> testt(@RequestBody InvestorReceived investorReceived) {
-//        System.out.println("Token: " + investorReceived.getToken());
-//        System.out.println(investorReceived.getName() + " " + investorReceived.getEmail());
-        String fromEmail = "snakesfifty@gmail.com";//jwtService.extractUsername(investorReceived.getToken());
-        String toEmail = "snakesfifty@gmail.com";//investorReceived.getEmail();
-        String emailSubject = "Subject";
-        String emailText = "Body";
+    public ResponseEntity<String> b(@RequestBody InvestorReceived investorReceived) {
+        System.out.println("Email Startup care trimite MAIL spre Investor: " + jwtService.extractUsername(investorReceived.getToken()));
+        System.out.println(investorReceived.getName() + " " + investorReceived.getEmail());
 
-        /*System.out.println("fromEmail: " + fromEmail);
-        System.out.println("toEmail: " + toEmail);
-        System.out.println("emailSubject: " + emailSubject);
-        System.out.println("emailText: " + emailText);*/
+        String fromEmail = jwtService.extractUsername(investorReceived.getToken());
+        String toEmail = investorReceived.getEmail();
+        String emailSubject = "Legatura Startup -> Investor";
+        String emailText = "Salutare! Folosesti platforma noastra cu scopul de a iti spori sansele pentru a primi o finantare cel putin buna!";
 
+        // to: "startupMailAdress@gmail.com" -> adresa Startup-ului,
+        // subject: "investorChoosen@gmail.com" -> adresa Investitor-ului
+        // text:
+        emailService.sendSimpleMessage("dumitruantoniodaniel03@gmail.com", "Legatura Startup -> Investor", "Salutare! Folosesti platforma noastra cu scopul de a iti spori sansele pentru a primi o finantare cel putin buna!");
 
-        System.setProperty("java.net.preferIPv4Stack", "true");
-        Properties props = new Properties();
-        props.put("mail.smtp.starttls.enable", "true");
+        // #### Investorul primeste email-ul Startup-ului, iar daca este de acord cu:
+        // propunerea sa, cu planul sau de afaceri ( in format .PDF ), furnizat in acest email
+        // Acesta poate trimite un REPLY Startup-ului cu un link de Teams, care propune o sedinta 1 la 1, la un moment dat.
 
-        String host = "smtp.gmail.com";
-        int port = 587;
-        String userName = "xxx";
-        String password = "xxx";
-
-        String mailTo = "xx@gmail.com";
-        String subject = "mail content";
-
-
-
-        JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        sender.setJavaMailProperties(props);
-        sender.setHost(host);
-        sender.setPort(port);
-        sender.setUsername(userName);
-        sender.setPassword(password);
-
-
-
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper;
-        try {
-            helper = new MimeMessageHelper(message, true);
-            helper.setTo(mailTo);
-            helper.setSubject(subject);
-            helper.setText("test test");
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-
-        sender.send(message);
-
-        return ResponseEntity.ok("test");
+        return ResponseEntity.ok(investorReceived.getToken());
     }
-
-//        emailService.sendEmail(fromEmail, toEmail, emailSubject, emailText);
-
-//        return ResponseEntity.ok("primitt");
 }
 
 /**
