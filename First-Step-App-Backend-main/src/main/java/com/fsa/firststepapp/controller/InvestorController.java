@@ -5,6 +5,7 @@ import com.fsa.firststepapp.models.dto.InvestorDto;
 import com.fsa.firststepapp.models.response.AuthenticationResponse;
 import com.fsa.firststepapp.service.jwt_service.IJwtService;
 import com.fsa.firststepapp.service.user_service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ public class InvestorController {
     private final IUserService userService;
     private final IJwtService jwtService;
 
+    @Autowired
     public InvestorController(IUserService userService, IJwtService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;

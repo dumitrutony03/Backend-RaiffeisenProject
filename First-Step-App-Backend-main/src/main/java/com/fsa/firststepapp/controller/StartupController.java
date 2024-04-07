@@ -5,10 +5,12 @@ import com.fsa.firststepapp.models.dto.*;
 import com.fsa.firststepapp.models.mappers.InvestorMapper;
 import com.fsa.firststepapp.service.jwt_service.IJwtService;
 import com.fsa.firststepapp.service.user_service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,30 +61,27 @@ public class StartupController {
      * @return Lista de obiecte StartupDto.
      */
     // O lista publica cu toti investitorii
-    @GetMapping("/allInvestors")
-    @PreAuthorize("hasAuthority('STARTUP')") // <-------- to be implemented in front end for AdminPage
-    public ResponseEntity<List<InvestorDto>> getAllInvestors() {
-        List<UserDto> allUsers = userService.getAllUsers();
-        List<InvestorDto> investorDtos = allUsers.stream()
-                .filter(userDto -> "INVESTOR".equals(userDto.getRole()))
-                .map(investorMapper::convertModelToDto) // Use InvestorMapper for efficient conversion
-                .collect(Collectors.toList());
+    @PostMapping("/allInvestors")
+    @PreAuthorize("hasAnyAuthority('STARTUP','ADMIN')") // <-------- to be implemented in front end for AdminPage
+        public ResponseEntity<List<UserDto>> getAllnvestors(@RequestBody String token) {
 
-        return ResponseEntity.ok(investorDtos);
+        // BEST PRACTICE: Ar trebui o metoda findUserByRole() implementata in UserRepository
+        //              : SAU -> findInvestorByRole() in InvestorRepositry
+
+
+        List<UserDto> investorsList = new ArrayList<>();
+
+        for (UserDto userDto : userService.getAllUsers()){
+            if (userDto.getRole().equals("INVESTOR")) {
+                investorsList.add(userDto);
+            }
+        }
+        return ResponseEntity.ok(investorsList);
     }
-
-
-//    public ResponseEntity<List<UserDto>> getAllnvestors() {
-//
-//        // BEST PRACTICE: Ar trebui o metoda findUserByRole() implementata in UserRepository
-//        //              : SAU -> findInvestorByRole() in InvestorRepositry
-//
-//
-//        List<UserDto> investorsList = userService.getAllUsers().stream()
-//                .filter(user -> "INVESTOR".equals(user.getRole()))
-//                .collect(Collectors.toList());
-//
-//        return ResponseEntity.ok(investorsList);
-//    }
+    @PostMapping("/")
+    @PreAuthorize("hasAnyAuthority('STARTUP','ADMIN')") // <-------- to be implemented in front end for AdminPage
+    public String testt(@RequestBody String token){
+        return token;
+    }
 
 }
