@@ -30,7 +30,6 @@ public class InvestorController {
         this.jwtService = jwtService;
     }
 
-//    @GetMapping("/investorDetails")
     @PostMapping("/investorDetails")
     @PreAuthorize("hasAnyAuthority('INVESTOR', 'ADMIN')")
     public ResponseEntity<Optional<User>> investorDetails(@RequestBody String token) {
