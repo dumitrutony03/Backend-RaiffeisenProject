@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
- * Controlerul pentru gestionarea utilizatorilor.
+ * Controlerul pentru gestionarea investitorilor.
  */
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -28,8 +28,9 @@ public class InvestorController {
         this.jwtService = jwtService;
     }
 
+//    @GetMapping("/investorDetails")
     @PostMapping("/investorDetails")
-    @PreAuthorize("hasAuthority('INVESTOR')")
+    @PreAuthorize("hasAnyAuthority('INVESTOR', 'ADMIN')")
     public ResponseEntity<Optional<User>> investorDetails(@RequestBody String token) {
         System.out.println(token);
 
@@ -42,5 +43,4 @@ public class InvestorController {
             return null;
 
     }
-
 }

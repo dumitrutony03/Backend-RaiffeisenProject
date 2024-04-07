@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvestorDto {
-    private Long investorId;
+    private Integer investorId;
     private String name;
     private String email;
-    private Long password;
+    private String password;
     private String role = "INVESTOR";
 }

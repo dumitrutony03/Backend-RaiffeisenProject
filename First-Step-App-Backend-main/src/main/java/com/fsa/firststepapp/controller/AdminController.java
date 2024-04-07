@@ -47,7 +47,7 @@ public class AdminController {
     @PostMapping("/register")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        System.out.println("Ceva inregistrat: " + request.getName() + " " + request.getEmail() + " " + request.getPassword() + " " + request.getPassword());
+        System.out.println("Ceva ce incearca sa fie inregistrat: " + request.getName() + " " + request.getEmail() + " " + request.getPassword() + " " + request.getPassword());
         try {
             var response = this.registerService.register(request);
 
@@ -73,6 +73,7 @@ public class AdminController {
      * @return Lista de obiecte UserDto.
      */
 
+    // TO BE IMPLEMENTED! <---- IN FRONT-END
     @GetMapping("/allStartupsAndInvestors")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UserDto>> getAllStartupsInvestors() {

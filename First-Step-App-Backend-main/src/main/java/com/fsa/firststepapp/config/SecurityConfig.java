@@ -46,11 +46,16 @@ public class SecurityConfig {
                                 .requestMatchers(POST, "/api/admin/**").hasAuthority("ADMIN")
                                 .requestMatchers(PUT, "/api/admin/**").hasAuthority("ADMIN")
                                 .requestMatchers(DELETE, "/api/admin/**").hasAuthority("ADMIN")
-                                .
-                                requestMatchers(GET, "/api/investors/**").hasAuthority("INVESTOR") // pentru cand trimitem din UI token ul inapoi cu authorizare, si apoi validam tokenul in partea de server
-                                .requestMatchers(POST, "/api/investors/**").hasAuthority("INVESTOR")
-                                .requestMatchers(PUT, "/api/investors/**").hasAuthority("INVESTOR")
-                                .requestMatchers(DELETE, "/api/investors/**").hasAuthority("INVESTOR")
+
+                                .requestMatchers(GET, "/api/investors/**").hasAnyAuthority("INVESTOR", "ADMIN") // pentru cand trimitem din UI token ul inapoi cu authorizare, si apoi validam tokenul in partea de server
+                                .requestMatchers(POST, "/api/investors/**").hasAnyAuthority("INVESTOR", "ADMIN")
+                                .requestMatchers(PUT, "/api/investors/**").hasAnyAuthority("INVESTOR", "ADMIN")
+                                .requestMatchers(DELETE, "/api/investors/**").hasAnyAuthority("INVESTOR", "ADMIN")
+
+                                .requestMatchers(GET, "/api/startups/**").hasAnyAuthority("STARTUP", "ADMIN")
+                                .requestMatchers(POST, "/api/startups/**").hasAnyAuthority("STARTUP", "ADMIN")
+                                .requestMatchers(PUT, "/api/startups/**").hasAnyAuthority("STARTUP", "ADMIN")
+                                .requestMatchers(DELETE, "/api/startups/**").hasAnyAuthority("STARTUP", "ADMIN")
 
                                 .requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated()
                 )
