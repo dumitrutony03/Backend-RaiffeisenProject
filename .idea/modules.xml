@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Backend_Server.iml" filepath="$PROJECT_DIR$/.idea/Backend_Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/First-Step-App-Backend-main/first-step-app.iml" filepath="$PROJECT_DIR$/First-Step-App-Backend-main/first-step-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../frontend_ffsa/frontend_ffsa.iml" filepath="$PROJECT_DIR$/../frontend_ffsa/frontend_ffsa.iml" />
     </modules>
   </component>
 </project>

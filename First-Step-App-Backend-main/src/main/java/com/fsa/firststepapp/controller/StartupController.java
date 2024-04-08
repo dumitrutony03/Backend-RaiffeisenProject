@@ -94,6 +94,8 @@ public class StartupController {
         String emailSubject = "Legatura Startup -> Investor";
         String emailText = "Salutare! Folosesti platforma noastra cu scopul de a iti spori sansele pentru a primi o finantare cel putin buna!";
 
+        // OBLIGATORIU PE HOTSPOT CONECTAREA => ERORI DE TIMEOUT!
+
         // to: "startupMailAdress@gmail.com" -> adresa Startup-ului,
         // subject: "investorChoosen@gmail.com" -> adresa Investitor-ului
         // text:

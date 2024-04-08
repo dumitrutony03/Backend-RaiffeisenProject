@@ -51,10 +51,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-//        if (request.getServletPath().contains("/api/startups/sendMentoringEmailToInvestor")) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
@@ -70,12 +66,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Verificarea și validarea token-ului JWT
         userEmail = jwtService.extractUsername(jwt);
-
-        // OFERIM autorizari dupa rol.
-        /*Optional<User> user = userService.findUserByEmail(userEmail);
-        if(user.get().getRole().equals("ADMIN")){
-
-        }*/
 
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
